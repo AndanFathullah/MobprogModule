@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.andan.simplenote.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
     private lateinit var sqliteHElper: SQLiteHelper
     private var adapter: NoteAdapter? = null
-    private var std: NoteModel? = null
+    private var note: NoteModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
             mainBinding.titleEditText.setText(it.title)
             mainBinding.textEditText.setText(it.text)
-            std=it
+            note=it
         }
 
         adapter?.setOnDeleteItem {
@@ -73,17 +72,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun editNote(){
-        val title = mainBinding.titleEditText.toString()
+        val title = mainBinding.titleEditText.text.toString()
         val text = mainBinding.textEditText.text.toString()
 
-        if (title == std?.title && text == std?.text ){
+        if (title == note?.title && text == note?.text ){
             Toast.makeText(this, "Nothing changed..", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (std == null) return
+        if (note == null) return
 
-        val std = NoteModel(id = std!!.id, title=title, text=text)
+        val std = NoteModel(id = note!!.id, title=title, text=text)
         val status = sqliteHElper.updateNote(std)
         if (status > -1){
             clearEditText()

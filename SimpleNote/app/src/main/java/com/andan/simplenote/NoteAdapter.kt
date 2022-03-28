@@ -1,14 +1,12 @@
 package com.andan.simplenote
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.andan.simplenote.databinding.ActivityMainBinding
 import com.andan.simplenote.databinding.ListNoteBinding
 
 class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
-    private var stdList: ArrayList<NoteModel> = ArrayList()
+    private var stdList = arrayListOf<NoteModel>()
     private var onClickItem: ((NoteModel) -> Unit)? = null
     private var onDeleteItem: ((NoteModel) -> Unit)? = null
 
@@ -25,12 +23,14 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         this.onDeleteItem = callback
     }
 
+    class NoteViewHolder(var binding: ListNoteBinding): RecyclerView.ViewHolder(binding.root)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = ListNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NoteViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NoteAdapter.NoteViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val (id, title, text) = stdList[position]
         holder.binding.id.text = id.toString()
         holder.binding.title.text = title
@@ -45,9 +45,5 @@ class NoteAdapter: RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         }
     }
 
-    override fun getItemCount(): Int {
-        return stdList.size
-    }
-
-    class NoteViewHolder(var binding: ListNoteBinding): RecyclerView.ViewHolder(binding.root)
+    override fun getItemCount(): Int = stdList.size
 }
