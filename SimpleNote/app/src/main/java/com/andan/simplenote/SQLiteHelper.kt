@@ -30,6 +30,20 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
         onCreate(db)
     }
 
+
+
+    fun deleteNote(id: Int): Int{
+        val db = this.writableDatabase
+
+        val contentValues = ContentValues()
+        contentValues.put(ID, id)
+
+        val success = db.delete(TBL_NOTE,"id=$id", null)
+        db.close()
+
+        return success
+    }
+
     fun updateNote(std: NoteModel): Int{
         val db = this.writableDatabase
 
@@ -39,18 +53,6 @@ class SQLiteHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, n
         contentValues.put(TEXT, std.text)
 
         val success = db.update(TBL_NOTE, contentValues, "id=" + std.id, null)
-        db.close()
-
-        return success
-    }
-
-    fun deleteNote(id: Int): Int{
-        val db = this.writableDatabase
-
-        val contentValues = ContentValues()
-        contentValues.put(ID, id)
-
-        val success = db.delete(TBL_NOTE,"id=$id", null)
         db.close()
 
         return success

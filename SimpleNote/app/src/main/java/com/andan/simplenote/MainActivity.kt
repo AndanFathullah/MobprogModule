@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         adapter?.setOnClickItem {
             Toast.makeText(this, "Selected " + it.title, Toast.LENGTH_SHORT).show()
-
             mainBinding.titleEditText.setText(it.title)
             mainBinding.textEditText.setText(it.text)
             note=it
@@ -95,7 +94,6 @@ class MainActivity : AppCompatActivity() {
     private fun getNote(){
         val stdList = sqliteHElper.getAllNote()
         Log.e("test", "${stdList.size}")
-
         adapter?.addItems(stdList)
     }
 
